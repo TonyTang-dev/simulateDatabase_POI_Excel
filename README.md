@@ -22,7 +22,7 @@
 
 # 预期实现
 
-![image-20220524152711197](callImg\README.asset\image-20220524152711197.png)
+![image-20220524152711197](./callImg/README.asset/image-20220524152711197.png)
 
 # 一、工具依赖
 
@@ -56,7 +56,7 @@
 5. 每个数据库表sheet，第一行存储数据库表项数+字段数---->便于增删改查操作；
 6. 默认在`C:\\simulateDB\\`路径下创建数据库文件；
 
-![image-20220524154517437](callImg\README.asset\image-20220524154517437.png)
+![image-20220524154517437](./callImg/README.asset/image-20220524154517437.png)
 
 **当前缺陷：**
 
@@ -121,9 +121,9 @@
 
 ## 2. 实现效果
 
-![image-20220524150136959](callImg\README.asset\image-20220524150136959.png)
+![image-20220524150136959](./callImg/README.asset/image-20220524150136959.png)
 
-![image-20220524150837556](E:\Tang_programe\repositories_projects\Laboratory_pro\simulateDatabase_spring\callImg\README.asset\image-20220524150837556.png)  
+![image-20220524150837556](./callImg/README.asset/image-20220524150837556.png)  
 
 # 五、问题综述
 
