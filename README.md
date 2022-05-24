@@ -26,9 +26,17 @@
 
 # 一、工具依赖
 
-1. Java JDK1.8、Java Spring套件
-2. wps office、Hbuilder
+1. Java JDK1.8、Java Spring套件，python套件，python xlrd,xlwt库
+
+2. wps office、Hbuilder、pycharm、notepad++
+
 3. 项目地址：
+
+   github: [](https://github.com/TonyTang-dev/simulateDatabase_POI_Excel.git)
+
+   gitee:[](https://gitee.com/TangGarlic/simulateDatabase_POI_Excel.git)
+   
+   本项目目前包括Java版和python版，python版暂时停止维护，pythonGUI基于wxpythonGUI套件库
 
 # 二、技术依赖
 
@@ -61,7 +69,7 @@
 **当前缺陷：**
 
 1. 时间原因，暂时只实现：创建数据库、选择数据库、添加数据库表、插入数据、删除数据
-2. Java版本当前实现进度：create语句、use语句···正逐步优化
+2. Java版本当前实现进度：create语句、use语句、insert语句、delete语句···正逐步优化
 
 ## 2.系统逻辑设计
 
@@ -128,7 +136,6 @@
 # 五、问题综述
 
 1. 暂未兼容报错，如用户不合法输入，暂时处理未完全；
-2. 在输入框，因为监听了enter键，但处理enter键时还未识别到enter输入，因此置空时会忽略enter字符，暂未处理；
 3. 索引暂未实现;
 4. 项目因为未配置阿里云镜像，直接下载poi配置暂未成功，因此直接手动添加的jar包依赖；
 
@@ -266,5 +273,64 @@ public class sysDao {
 		return bok;
 	}
 }
+/**
+	 * @description: java poi simulate database
+	 * @author: CQU dbLab group Tang&Guo 
+	 * @date: 2022/5/24 20:49
+	 * @param: [tableName, cmd, params]
+	 * @return: boolean
+	 **/
+	public boolean deleteTable(String tableName, int cmd, String params[]){
+		HSSFWorkbook conn = null;
+		try {
+			conn = dbUtils.getWrokbook(globalCmd.curDatabase);
+			if(conn == null){
+				return false;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		HSSFSheet sheet = conn.getSheet(tableName);
+		int rowIndex = sheet.getLastRowNum()+1;
+//		删除整个表
+		if(cmd == 1){
+			for(int i=2;i<rowIndex;i++){
+				sheet.shiftRows(3,sheet.getLastRowNum()+1,-1);
+			}
+			try {
+				FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
+
+				conn.write(fileOut);
+				fileOut.close();
+			}catch(Exception e){
+				System.out.println("修改数据库出错");
+			}
+			return true;
+		}
+		else if(cmd == 2){
+			int j=0;
+			for(j=0;j<Integer.parseInt(sheet.getRow(0).getCell(3).getStringCellValue());j++){
+				if(params[0].equals(sheet.getRow(1).getCell(j).getStringCellValue())){
+					break;
+				}
+			}
+			for(int i=2;i<rowIndex;i++){
+				if(params[1].equals(sheet.getRow(i).getCell(j).getStringCellValue())){
+//					相等说明找到了
+					sheet.shiftRows(i+1,sheet.getLastRowNum(),-1);
+					try {
+						FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
+
+						conn.write(fileOut);
+						fileOut.close();
+					}catch(Exception e){
+						System.out.println("修改数据库出错");
+					}
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 ```
 

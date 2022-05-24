@@ -27,19 +27,24 @@ public class DBUtils {
 //		return workbook;
 //	}
 
-	public HSSFWorkbook getWrokbook(String baseName) throws IOException {
+	public HSSFWorkbook getWrokbook(String baseName) {
 		File file=new File(baseName+".xls");
 		if(!file.exists()){
 			System.out.println("数据库不存在");
 			return null;
 		}
-		FileInputStream fs=new FileInputStream(baseName+".xls");
+		try {
+			FileInputStream fs = new FileInputStream(baseName + ".xls");
 
-		HSSFWorkbook wb = new HSSFWorkbook(fs);
-		FileOutputStream fileOut = new FileOutputStream(baseName+".xls");//创建文件流
-		wb.write(fileOut);//把Workbook对象输出到路径path中
-		fileOut.close();
-		return wb;
+			HSSFWorkbook wb = new HSSFWorkbook(fs);
+			FileOutputStream fileOut = new FileOutputStream(baseName + ".xls");//创建文件流
+			wb.write(fileOut);//把Workbook对象输出到路径path中
+			fileOut.close();
+			return wb;
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

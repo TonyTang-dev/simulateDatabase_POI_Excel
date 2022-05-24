@@ -38,7 +38,7 @@ function sendSql(sql){
 	$.ajax({
 		method: "POST",
 		url:'/simulateDatabase_mvc/operateDatabaseController.do',
-		timeout: 5000,
+		timeout: 50000,
 		context:this,
 		data:{
 		    operation: sql
@@ -55,7 +55,9 @@ function sendSql(sql){
 			 window.location.href="/simulateDatabase_mvc/show404.html";
 		},
 		complete:function(){
-	
+		    $sqlInput.val("");  //无论成功与否，都需要再次将输入框清空，原因是采用回车出发的情况下，是识别不到
+		                        //回车的，也就是说输入框会保留回车，因此会对下一次操作产生影响
+		                        //而每次执行之后，再次清空，确保了输入框不会残留冗余数据，保证操作的正确性
 		}
 	});
 }

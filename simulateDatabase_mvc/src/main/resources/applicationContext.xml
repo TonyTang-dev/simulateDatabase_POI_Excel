@@ -33,9 +33,9 @@
 	</bean>
 	
 	<bean id="sysUserDao" class="com.dbLab.dao.sysDao">
-<!--		<property name="dbUtils">-->
-<!--			<ref bean="dbUtils" />-->
-<!--		</property>-->
+		<property name="dbUtils">
+			<ref bean="dbUtils" />
+		</property>
 	</bean>
 	
 	<bean id="sysUserService" class="com.dbLab.service.SysUserServiceImpl">

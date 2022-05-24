@@ -11,11 +11,30 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 //进行数据库操作的函数
 public class sysDao {
+//	获取excel的对象类
+	private DBUtils dbUtils;
+
+	/**
+	 * @description: java poi simulate database 设置获取excel的对象实例
+	 * @author: CQU dbLab group Tang&Guo
+	 * @date: 2022/5/24 20:43
+	 * @param: [dbUtils]
+	 * @return: void
+	 **/
+	public void setDbUtils(DBUtils dbUtils){
+		this.dbUtils=dbUtils;
+	}
 	/*创建数据库--新建一个.xls表*/
+
+	/**
+	 * @author CQU db group
+	 * @param baseName 创建的数据库名
+	 * @return	successful or failed
+	 */
 	public boolean createDatabase(String baseName){
 		File file=new File(baseName+".xls");
 		if(!file.exists()){
-			System.out.println("正在创建数据库");
+			System.out.println("正在创建数据库···");
 		}
 //		InputStream is=null;
 		HSSFWorkbook wb = null;
@@ -53,10 +72,21 @@ public class sysDao {
 	}
 
 	/*在数据库创建表*/
+
+	/**
+	 * @author CQU dbgroup
+	 * @param tableName 创建的表明
+	 * @param value 创建表的字段名
+	 * @return successful or failed
+	 */
 	public boolean createTable(String tableName, String value[]){
 		HSSFWorkbook conn = null;
 		try {
-			conn = new DBUtils().getWrokbook(globalCmd.curDatabase);
+			conn = dbUtils.getWrokbook(globalCmd.curDatabase);
+			if(conn == null){
+				System.out.println("获取数据表失败");
+				return false;
+			}
 		}catch(Exception e){
 			System.out.println("打开数据库出错");
 			return false;
@@ -96,8 +126,135 @@ public class sysDao {
 		}
 		return true;
 	}
+	/*insert*/
+	/**
+	 * @description: java poi simulate database
+	 * @author: CQU dbLab group Tang&Guo
+	 * @date: 2022/5/24 20:38
+	 * @param: [tableName, values]	数据库表名和插入的数据列表
+	 * @return: boolean successful or failed
+	 **/
+	public boolean insertTable(String tableName, String values[]){
+		HSSFWorkbook conn = null;
+		try {
+			conn = dbUtils.getWrokbook(globalCmd.curDatabase);
+			if(conn == null){
+				return false;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		HSSFSheet sheet = conn.getSheet(tableName);
+		int rowIndex = sheet.getLastRowNum()+1;
+//		创建行
+		HSSFRow row = sheet.createRow(rowIndex);
+		HSSFCell cell = null;
+		cell=sheet.getRow(0).getCell(1);
+		cell.setCellValue(rowIndex);   //设置cell字符类型的值
+		cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+		try {
+			for (int i = 0; i < values.length; i++) {
+				cell = row.createCell(i);
+				cell.setCellValue(values[i]);     //设置cell浮点类型的值
+				cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			}
+			try {
+				FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
+
+				conn.write(fileOut);
+				fileOut.close();
+			}catch(Exception e){
+				System.out.println("修改数据库出错");
+			}
+			return true;
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*delete*/
+	/**
+	 * @description: java poi simulate database
+	 * @author: CQU dbLab group Tang&Guo 
+	 * @date: 2022/5/24 20:49
+	 * @param: [tableName, cmd, params]
+	 * @return: boolean
+	 **/
+	public boolean deleteTable(String tableName, int cmd, String params[]){
+		HSSFWorkbook conn = null;
+		try {
+			conn = dbUtils.getWrokbook(globalCmd.curDatabase);
+			if(conn == null){
+				return false;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		HSSFSheet sheet = conn.getSheet(tableName);
+		int rowIndex = sheet.getLastRowNum()+1;
+//		删除整个表
+		if(cmd == 1){
+			for(int i=2;i<rowIndex;i++){
+				sheet.shiftRows(3,sheet.getLastRowNum()+1,-1);
+			}
+			try {
+				FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
+
+				conn.write(fileOut);
+				fileOut.close();
+			}catch(Exception e){
+				System.out.println("修改数据库出错");
+			}
+			return true;
+		}
+		else if(cmd == 2){
+			int j=0;
+			for(j=0;j<Integer.parseInt(sheet.getRow(0).getCell(3).getStringCellValue());j++){
+				if(params[0].equals(sheet.getRow(1).getCell(j).getStringCellValue())){
+					break;
+				}
+			}
+			for(int i=2;i<rowIndex;i++){
+				if(params[1].equals(sheet.getRow(i).getCell(j).getStringCellValue())){
+//					相等说明找到了
+					sheet.shiftRows(i+1,sheet.getLastRowNum(),-1);
+					try {
+						FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
+
+						conn.write(fileOut);
+						fileOut.close();
+					}catch(Exception e){
+						System.out.println("修改数据库出错");
+					}
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/*select*/
+	/**
+	 * @description: java poi simulate database
+	 * @author: CQU dbLab group Tang&Guo 
+	 * @date: 2022/5/24 20:50
+	 * @param: [tableName, cmd, params]
+	 * @return: boolean
+	 **/
+	public boolean selectTable(String tableName, int cmd, String selectParams[], String params[]){
+		
+		return true;
+	}
 
 	//判断端口是否已经被占用
+	/**
+	 * @description: java poi simulate database
+	 * @author: CQU dbLab group Tang&Guo
+	 * @date: 2022/5/24 20:36
+	 * @param: [port]
+	 * @return: boolean
+	 **/
 	public boolean isPort(int port) throws IOException
 	{
 
