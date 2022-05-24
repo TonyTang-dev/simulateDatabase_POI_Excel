@@ -1,5 +1,5 @@
 ---
-模拟数据库的python实现
+模拟数据库的Java POI实现
 
 ---
 
@@ -18,11 +18,17 @@
 >>（2）能基于该方案完成系统要求的功能；
 >>（3）设计方案有一定的合理性分析。
 
+
+
+# 预期实现
+
+![image-20220524152711197](callImg\README.asset\image-20220524152711197.png)
+
 # 一、工具依赖
 
 1. Java JDK1.8、Java Spring套件
-
 2. wps office、Hbuilder
+3. 项目地址：
 
 # 二、技术依赖
 
@@ -34,7 +40,8 @@
 ## 0. 问题分析
 
 - 需要实现数据库创建、创建表、数据库表增删改查、建立索引并比较效果等；
-- 分析实现模拟数据库，并实现效率分析。
+- 分析实现模拟数据库，并实现效率分析；
+- 主要难题：搭建索引并作效率分析
 
 ## 1、数据库设计实现
 
@@ -49,9 +56,7 @@
 5. 每个数据库表sheet，第一行存储数据库表项数+字段数---->便于增删改查操作；
 6. 默认在`C:\\simulateDB\\`路径下创建数据库文件；
 
-![image-20220523135740050](E:\Tang_programe\repositories_projects\Laboratory_pro\simulateDatabase_spring\callImg\README.asset\image-20220523135740050.png)
-
-
+![image-20220524154517437](callImg\README.asset\image-20220524154517437.png)
 
 **当前缺陷：**
 
@@ -116,7 +121,7 @@
 
 ## 2. 实现效果
 
-![image-20220524150136959](E:\Tang_programe\repositories_projects\Laboratory_pro\simulateDatabase_spring\callImg\README.asset\image-20220524150136959.png)
+![image-20220524150136959](callImg\README.asset\image-20220524150136959.png)
 
 ![image-20220524150837556](E:\Tang_programe\repositories_projects\Laboratory_pro\simulateDatabase_spring\callImg\README.asset\image-20220524150837556.png)  
 
