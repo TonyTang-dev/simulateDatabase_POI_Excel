@@ -11,6 +11,7 @@
 			<props>
 				<prop key="/loginController.do">loginController</prop>
 				<prop key="/operateDatabaseController.do">operateDatabaseController</prop>
+				<prop key="/operateSelectDatabaseController.do">operateSelectDatabaseController</prop>
 			</props>
 		</property>
 	</bean>
@@ -51,6 +52,12 @@
 	</bean>
 
 	<bean id="operateDatabaseController" class="com.dbLab.controller.operateDatabaseController">
+		<property name="sysUserService">
+			<ref bean="sysUserService"></ref>
+		</property>
+	</bean>
+
+	<bean id="operateSelectDatabaseController" class="com.dbLab.controller.operateSelectDatabaseController">
 		<property name="sysUserService">
 			<ref bean="sysUserService"></ref>
 		</property>

@@ -6,7 +6,7 @@ import com.dbLab.dao.*;
 
 public interface ISysUserService {
 	public boolean createDatabase(String baseName);
-	public boolean selectDatabase(String baseName);
+	public selectEntity operateSelectDatabase(String operation);
 	public boolean createTable(String tableName, String value[]);
 	public boolean operateDatabase(String operation);
 }

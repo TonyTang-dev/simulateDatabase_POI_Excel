@@ -193,12 +193,17 @@ public class sysDao {
 		}
 		HSSFSheet sheet = conn.getSheet(tableName);
 		int rowIndex = sheet.getLastRowNum()+1;
+		HSSFCell cell = null;
+		cell=sheet.getRow(0).getCell(1);
+		cell.setCellType(HSSFCell.CELL_TYPE_STRING);
 //		删除整个表
 		if(cmd == 1){
 			for(int i=2;i<rowIndex;i++){
 				sheet.shiftRows(3,sheet.getLastRowNum()+1,-1);
+				sheet.removeRow(sheet.getRow(sheet.getLastRowNum()));
 			}
 			try {
+				cell.setCellValue("2");   //设置cell字符类型的值
 				FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
 
 				conn.write(fileOut);
@@ -218,8 +223,10 @@ public class sysDao {
 			for(int i=2;i<rowIndex;i++){
 				if(params[1].equals(sheet.getRow(i).getCell(j).getStringCellValue())){
 //					相等说明找到了
-					sheet.shiftRows(i+1,sheet.getLastRowNum(),-1);
+					sheet.shiftRows(i+1,sheet.getLastRowNum()+1,-1);
+					sheet.removeRow(sheet.getRow(sheet.getLastRowNum()));
 					try {
+						cell.setCellValue(rowIndex-1);   //设置cell字符类型的值
 						FileOutputStream fileOut = new FileOutputStream(globalCmd.curDatabase + ".xls");
 
 						conn.write(fileOut);
@@ -242,9 +249,59 @@ public class sysDao {
 	 * @param: [tableName, cmd, params]
 	 * @return: boolean
 	 **/
-	public boolean selectTable(String tableName, int cmd, String selectParams[], String params[]){
-		
-		return true;
+	public selectEntity selectTable(String tableName, int cmd, String selectParams[], String params[]){
+		HSSFWorkbook conn = null;
+		try {
+			conn = dbUtils.getWrokbook(globalCmd.curDatabase);
+			if(conn == null){
+				return null;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		HSSFSheet sheet = conn.getSheet(tableName);
+		int rowIndex = sheet.getLastRowNum()+1;
+		int column = Integer.parseInt(sheet.getRow(0).getCell(3).getStringCellValue());
+		selectEntity rs = new selectEntity();
+		rs.setSelectRS("");
+		if(cmd == 1){
+			for(int i=1;i<rowIndex;i++){
+				for(int j=0;j<column;j++){
+					rs.setSelectRS(rs.getSelectRS()+" "+sheet.getRow(i).getCell(j).getStringCellValue());
+				}
+				if(i==1){
+					rs.setSelectRS(rs.getSelectRS()+"\n- - - - - - - - -\n");
+				}
+				else {
+					rs.setSelectRS(rs.getSelectRS() + "\n");
+				}
+			}
+			return rs;
+		}
+		else if(cmd == 2){
+			int index = 0;
+			int flag = 1;
+			for(int j=0;j<column;j++){
+				rs.setSelectRS(rs.getSelectRS()+" "+sheet.getRow(1).getCell(j).getStringCellValue());
+				if(params[0].equals(sheet.getRow(1).getCell(j).getStringCellValue())){
+					flag = 0;
+				}
+				else if(flag == 1){
+					index++;
+				}
+			}
+			rs.setSelectRS(rs.getSelectRS()+"\n- - - - - - - - -\n");
+			for(int i=2;i<rowIndex;i++){
+				if(params[1].equals(sheet.getRow(i).getCell(index).getStringCellValue())){
+//					相等说明找到了
+					for(int k=0;k<column;k++){
+						rs.setSelectRS(rs.getSelectRS()+" "+sheet.getRow(i).getCell(k).getStringCellValue());
+					}
+					return rs;
+				}
+			}
+		}
+		return null;
 	}
 
 	//判断端口是否已经被占用

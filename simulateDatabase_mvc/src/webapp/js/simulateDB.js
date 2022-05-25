@@ -35,17 +35,30 @@ var waitAppendSql = null;
 
 /* 将语句发送到后端 */
 function sendSql(sql){
+    var url = '/simulateDatabase_mvc/operateDatabaseController.do';
+    if(sql.split(/\s+/)[0] == "select"){
+        url = '/simulateDatabase_mvc/operateSelectDatabaseController.do';
+    }
 	$.ajax({
 		method: "POST",
-		url:'/simulateDatabase_mvc/operateDatabaseController.do',
+		url: url,
 		timeout: 50000,
 		context:this,
 		data:{
 		    operation: sql
 		},
 		success:function(data,textStatus){
+		    console.log(data);
 		    if(data != "undefined" && data !="0" && data!=null){
 				$sqlResult.text("操作成功");
+				if(url == '/simulateDatabase_mvc/operateSelectDatabaseController.do'){
+				    $(".selectResult").show();
+				    $("#selectRS").text(data[0].selectRS);
+				}
+				else{
+				    $(".selectResult").hide();
+                    $("#selectRS").text("");
+				}
 		    }
 		    else{
 				$sqlResult.text("操作失败");
@@ -83,7 +96,7 @@ function excuteSql(){
 			return;
 		}
 		$lastOpe.text(operation);
-		$sqlInput.val("");
+//		$sqlInput.val("");
 		waitAppendSql={
 			"opeID":opeCountID+1,
 			"opeSql":operation,
@@ -108,7 +121,7 @@ $(function($){
 			Toast("请先输入正确的Sql语句再执行");
         	return;
         }
-		$sqlInput.val("");
+//		$sqlInput.val("");
 		$lastOpe.text(operation);
 		waitAppendSql={
 			"opeID":opeCountID+1,

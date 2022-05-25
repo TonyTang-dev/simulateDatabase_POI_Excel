@@ -69,7 +69,7 @@
 **当前缺陷：**
 
 1. 时间原因，暂时只实现：创建数据库、选择数据库、添加数据库表、插入数据、删除数据
-2. Java版本当前实现进度：create语句、use语句、insert语句、delete语句···正逐步优化
+2. Java版本当前实现进度：create语句、use语句、insert语句、delete语句、select语句···正逐步优化
 
 ## 2.系统逻辑设计
 
@@ -115,6 +115,12 @@
    insert into test (1,2,3,4,5,6)
    ```
 
+6. select * from [table_name]查询数据库表的数据，例如：
+
+   ```mysql
+   select * from test
+   ```
+
    
 
 # 四、技术实现
@@ -131,7 +137,9 @@
 
 ![image-20220524150136959](./callImg/README.asset/image-20220524150136959.png)
 
-![image-20220524150837556](./callImg/README.asset/image-20220524150837556.png)  
+![image-20220524150837556](./callImg/README.asset/image-20220524150837556.png)
+
+![image-20220525142733328](E:\Tang_programe\repositories_projects\Laboratory_pro\simulateDatabase_spring\callImg\README.asset\image-20220525142733328.png)  
 
 # 五、问题综述
 
