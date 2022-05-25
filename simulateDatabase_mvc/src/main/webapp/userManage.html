@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="./frame/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="./frame/bootstrap/css/bootstrap-table.min.css" />
+		<link rel="stylesheet" href="./frame/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" href="css/userManager.css" />
+		<link rel="shortcut icon" href="img/logo.ico">
+		<title>模拟数据库</title>
+	</head>
+	<body style="background-image: url(img/loginbg3.png);">
+		<div style="display: flex;align-items: center;justify-content: space-between; background-image: url(img/buttonbg.png);">
+			<div class="panel-heading" style="font-size: 28px;font-weight: bold; color: #ffffff; font-family: '宋体';">模拟数据库系统</div>
+			<div id="top1" style="margin-right: 30px;font-weight: bold; color: #ffffff;">
+				<a id="login" style="color: #FFFFFF;" href="./JLogin.html">登录</a>
+				<a style="color: #FFFFFF;">|</a>
+				<a style="color: #FFFFFF;" id="a1">联系我们</a>
+			</div>
+		</div>
+		<div style="width: 100%;height: 40px;display: flex;flex-direction: row;background-color: rgba(0,0,0,0.8);">
+			<img id="head-photo" src="img/header.jpg" style="margin-left:20px;box-shadow: 0px 0px 3px 3px #ffffff; width: 38px; height: 38px; border-radius: 50%; margin-top: 0px;" />
+			<div class="nick-wrap" style="width:18em;margin-left:10px;display: flex;flex-direction: column;align-items: flex-start; color: white;">
+				<span class="nick" style="font-weight: bold; margin-top: 0px;">昵称：测试一号</span>
+				<span class="signature" style="font-size: 12px;margin-top: 0px;">签名：每个人的一生都是一次远行</span>
+			</div>
+			<!-- function -->
+			<div class="function-api" style="display: flex;flex-direction: row;height: 45px;margin:0;">
+				<ul class="list-group" style="display: flex;flex-direction: row;user-select: none;">
+					<li class="list-group-item" id="console" onclick="changePage(2)" style="background-color: #ff5500;">
+						<span class="glyphicon glyphicon-th-large"></span> 主控制台
+					</li>
+					<li class="list-group-item" id="data" onclick="changePage(1)">
+						<span class="glyphicon glyphicon-user"></span> 模拟操作
+					</li>
+					<li class="list-group-item" id="add" onclick="changePage(3)">
+						<span class="glyphicon glyphicon-plus-sign"></span> 数据库数
+					</li>
+					<li class="list-group-item" id="query" onclick="changePage(4)">
+						<span class="glyphicon glyphicon-search"></span> 数据表数
+					</li>
+					<li class="list-group-item" id="update" onclick="changePage(5)">
+						<span class="glyphicon glyphicon-retweet"></span> 索引效率
+					</li>
+					<li class="list-group-item" id="delete" onclick="changePage(6)">
+						<span class="glyphicon glyphicon-exclamation-sign"></span> 数据总览
+					</li>
+					<li class="list-group-item" id="listUser" onclick="changePage(7)">
+						<span class="glyphicon glyphicon-list"></span> 管理权限
+					</li>
+					<li class="list-group-item" id="setting" onclick="changePage(8)">
+						<span class="glyphicon glyphicon-wrench"></span> 系统信息
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div id="myConsole" style="flex: 1;">
+				<div style="display: flex; flex-direction: row;height: 300px;">
+					<div style="display: inline-block; flex: 1; height:300px;overflow: hidden;">
+						<div style="display: inline-block; width: 100%;">
+							<h4 class="console-tips">数据库总览</h4><br>
+							<div class="graph-wrap">
+								<div id="pieGraph"></div>
+								<div id="barGraph"></div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default" style="width:500px; height: 300px; background-image: url(img/loginbg3.png);">
+						<div id="myCarousel" data-ride="carousel" class="carousel slide" style="width:100%; height: 100%;">
+							<!-- 轮播（Carousel）指标 -->
+							<ol class="carousel-indicators">
+								<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+								<li data-target="#myCarousel" data-slide-to="1"></li>
+								<li data-target="#myCarousel" data-slide-to="2"></li>
+							</ol>   
+							<!-- 轮播（Carousel）项目 -->
+							<div class="carousel-inner" style="width:100%;height: 100%;">
+								<div class="item active" style="margin:0;width:100%;height: 100%;">
+									<img src="img/fruit.jpg" alt="First slide" style="width:100%; height: 100%;">
+									<div class="carousel-caption">一蓑烟雨任平生</div>
+								</div>
+								<div class="item" style="margin:0;width:100%;height: 100%;">
+									<img src="img/fruit.jpg" alt="Second slide" style="width:100%;height: 100%;">
+									<div class="carousel-caption">仰天大笑出门去</div>
+								</div>
+								<div class="item" style="margin:0;width:100%;height: 100%;">
+									<img src="img/fruit.jpg" alt="Third slide" style="width:100%;height: 100%;">
+									<div class="carousel-caption">我辈岂是蓬蒿人</div>
+								</div>
+							</div>
+							<!-- 轮播（Carousel）导航 -->
+							<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div style="width: 100%;height: 1px;background-color: #000000;"></div>
+				<div class="bottom-wrap">
+					<div class="tip-card">
+						<div class="func-item statistics">
+							<span>数据库</span>
+							<hr>
+							<div class="detail-tips-statistics">
+								<span>0个</span>
+							</div>
+						</div>
+						<div class="func-item statistics">
+							<span>数据库表</span>
+							<hr>
+							<div class="detail-tips-statistics">
+								<span>0个</span>
+							</div>
+						</div>
+						<div class="func-item statistics">
+							<span>使用统计</span>
+							<hr>
+							<div class="detail-tips-statistics">
+								<span>0个操作</span>
+							</div>
+						</div>
+					</div>
+					<div class="tip-card">
+						<div class="func-item">
+							<span>数据简介</span>
+							<ul>
+								<li>基于mysql设计模式</li>
+								<li>实现简单的sql语句编译</li>
+								<li>目的是完成数据库设计任务</li>
+							</ul>
+						</div>
+						<div class="func-item">
+							<span>系统介绍</span>
+							<ul>
+								<li>系统版本1.0.0</li>
+								<li>管理员可通过右侧菜单栏选择功能操作</li>
+								<li>目前系统存在较多bug，需要进一步维护</li>
+								<li>前端基于htm+css+js+jquery+bootstrap开发</li>
+								<li>后端基于Java springMVC框架开发</li>
+							</ul>
+						</div>
+						<div class="func-item">
+							<span>注意事项</span>
+							<ul>
+								<li>当前系统不稳定，存在许多bug待修复</li>
+								<li>若出现卡顿、闪退请重启系统</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="myData" style="display: none; flex: 1;">
+				<div class="panel panel-default rideManagePanel">
+					<div class="tip-card ride-card">
+						<div class="func-item statisticsRide">
+							<span>操作结果</span>
+							<hr>
+							<div class="detail-tips-statistics">
+								<span id="opeResult">暂无操作</span>
+							</div>
+						</div>
+						<div class="func-item statisticsRide">
+							<span>上一操作</span>
+							<hr>
+							<div class="detail-tips-statistics">
+								<span id="lastOpe">暂无操作</span>
+							</div>
+						</div>
+						<div class="operationPanel">
+							<div style="width:100%;height:20%;background:#00007f;text-align:center;">
+								<span style="height:100%;color:white;font-weight:bold;font-size:20px;font-family:'微软雅黑';">SQL语句输入执行面板</span>
+							</div>
+							<textarea id="operation-input" rows="1" placeholder="在此输入SQL语句,点击执行或回车执行" onkeypress="excuteSql()"></textarea>
+							<div style="width:100%;height:20%;display:flex;justify-content:space-between;padding:0 40px 0 40px;">
+								<button id="resetSql" class="btn btn-warning" style="margin:0;height:30px;">清空</button>
+								<button id="executeSql" class="btn btn-success" style="margin:0;height:30px;">执行</button>
+								<button id="rollbackSql" class="btn btn-warning" style="margin:0;height:30px;">回退</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="data-detail-wrap">
+					<div style="width: 100%;">
+						<table id="opeTab"
+							   data-show-refresh="true"
+							   data-show-toggle="true"
+							   data-show-columns="true"
+							   data-id-field="opeID"
+							   data-search="true"
+							   data-search-align="left"
+							   style="background-color: #FFFFFF;">
+						</table>
+					</div>
+				</div>
+				<div class="selectResult" style="display:none;overflow:auto;text-align:center;border-radius:10px;position:fixed;top:300px;right:30px;width:300px;height:200px;background:rgba(0,0,0,0.8);">
+					<span style="display:block;height:30px;background:black;text-align:center;color:white;font-size:20px;font-family:'微软雅黑';font-weight:bold;">查询结果</span>
+					<span id="selectRS" style="white-space:pre-wrap;display:block;height:30px;text-align:center;color:white;font-size:20px;font-family:'微软雅黑';font-weight:bold;"></span>
+				</div>
+			</div>
+			<div id="myAdd" style="display: none; flex: 1;">
+				<div class="panel panel-default" style="display:flex; flex-direction:column;  align-items: center; background-image: url(img/loginbg3.png);">
+
+				</div>
+			</div>
+			<div id="myQuery" style="display: none; flex: 1;">
+				<div class="panel panel-default" style="display:flex; flex-direction:row;  align-items: center; background-image: url(img/loginbg3.png);">
+
+				</div>
+			</div>
+			<div id="myUpdate" style="display: none; flex: 1;">
+				<div class="panel panel-default" style="display:flex; flex-direction:row;  align-items: center; background-image: url(img/loginbg3.png);">
+
+				</div>
+			</div>
+			<div id="myDelete" style="display: none; flex: 1;">
+				<div class="panel panel-default" style="display:flex; flex-direction:column;  align-items: center; background-image: url(img/loginbg3.png);">
+
+				</div>
+			</div>
+			<div id="myUserList" style="display: none; flex: 1;">
+				<div class="panel panel-default" style="display:flex; flex-direction:column; background-image: url(img/loginbg3.png);">
+
+				</div>
+			</div>
+			<div id="mySetting" style="display: none; flex: 1;">
+				<div class="panel panel-default" style="display:flex; flex-direction:column; background-image: url(img/loginbg3.png);">
+
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="./js/jquery-3.6.0.min.js"></script>
+<script src="./frame/bootstrap/js/bootstrap.min.js"></script>
+<script src="./frame/bootstrap/js/bootstrap-table.min.js"></script>
+<script src="./frame/bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="./frame/bootstrap/js/bootstrap-table-locale-all.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="js/simulateDB.js"></script>

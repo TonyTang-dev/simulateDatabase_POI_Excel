@@ -42,6 +42,7 @@
 
 1. java spring
 2. java poi excle操作库
+3. 对项目的时间统计是通过前端页面，获取到1970至今的时间戳来计算的，响应时间周期以发起请求到完成请求计算。
 
 # 三、分析实现
 
@@ -119,6 +120,13 @@
 
    ```mysql
    select * from test
+   ```
+
+7. update [table_name] set [condition] {where [condition]}修改数据，包括修改全部列和修改特定列，目前实现效果仅支持修改单列，即修改参数只能有一个，例如
+
+   ```mysql
+   update test set a=2		#修改test表的所有a字段为2
+   update test set a=2 where a=1	#修改test表a字段为1的项字段为2
    ```
 
    
