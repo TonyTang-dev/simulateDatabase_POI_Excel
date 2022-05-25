@@ -23,3 +23,5 @@
 0:0:0:0:0:0:0:1 - - [25/May/2022:20:07:28 +0800] "GET /simulateDatabase_mvc/img/logo.ico HTTP/1.1" 200 67646 http-bio-8080-exec-4 10
 0:0:0:0:0:0:0:1 - - [25/May/2022:20:07:33 +0800] "POST /simulateDatabase_mvc/operateDatabaseController.do HTTP/1.1" 200 1 http-bio-8080-exec-4 962
 0:0:0:0:0:0:0:1 - - [25/May/2022:20:07:42 +0800] "POST /simulateDatabase_mvc/operateSelectDatabaseController.do HTTP/1.1" 200 68 http-bio-8080-exec-4 848
+0:0:0:0:0:0:0:1 - - [25/May/2022:20:36:51 +0800] "GET /simulateDatabase_mvc HTTP/1.1" 302 - http-bio-8080-exec-1 0
+0:0:0:0:0:0:0:1 - - [25/May/2022:20:36:52 +0800] "GET /simulateDatabase_mvc/js/simulateDB.js HTTP/1.1" 200 9922 http-bio-8080-exec-3 62

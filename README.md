@@ -116,12 +116,22 @@
    insert into test (1,2,3,4,5,6)
    ```
 
-6. select * from [table_name]查询数据库表的数据，例如：
+6. select * from [table_name] {where [condition]}查询数据库表的数据，例如：
 
    ```mysql
    select * from test
+   select * from test where a=1
+```
+   
+   对于select语句，我们需要比较有索引和无索引的时间区别，因此，每次select查询都执行两次查询，并得出相应的时间，作出比较,用index后缀来标识索引查询：
+   
+   ```mysql
+   select * from test index
+   select * from test where a=1 index
    ```
-
+   
+   
+   
 7. update [table_name] set [condition] {where [condition]}修改数据，包括修改全部列和修改特定列，目前实现效果仅支持修改单列，即修改参数只能有一个，例如
 
    ```mysql

@@ -2,13 +2,64 @@
 	全局变量
  */
 
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init($('#pieGraph')[0]);
+// 基于准备好的dom，初始化echarts实例----学校分布
+var barChart = echarts.init($("#barGraph")[0]);
 //男女数量
-var sexList=[          // 数据数组，name 为数据项名称，value 为数据项值
-			{value:0, name:'数据库'},
-			{value:0, name:'数据表'},
+var selectList=[          // 数据数组，name 为数据项名称，value 为数据项值
+			{value:0, name:'普通查询(ms)'},
+			{value:0, name:'索引查询(ms)'},
 		];
-var roleNameList=[];
-var roleCountList=[0,0];
+var selectBarList=[0,0];
+
+// 指定图表的配置项和数据
+var option = {
+    title: {
+        text: '普通查询/索引查询'
+    },
+    color: ["#ff5500","#0055ff"],
+    tooltip: {},
+    legend: {
+        data:['普通查询']
+    },
+    series : [
+        {
+            name: '查询方式',
+            type: 'pie',    // 设置图表类型为饼图
+            radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+            data: selectList
+        }
+    ]
+};
+// 使用刚指定的配置项和数据显示图表。
+myChart.setOption(option);
+
+
+//	// 基于准备好的dom，初始化echarts实例----学校分布
+//	var barChart = echarts.init($("#barGraph")[0]);
+// 指定图表的配置项和数据
+var optionBar = {
+    title: {
+        text: '索引/普通查询时间分布情况(ms)'
+    },
+    color: ["#ff5500","#55ff00","#0000ff"],
+    tooltip: {},
+    legend: {
+        data:['索引查询']
+    },
+    xAxis: {
+        data: ['普通查询','索引查询']//schoolNameList
+    },
+    yAxis: {},
+    series: [{
+        name: '查询方式',
+        type: 'bar',
+        data: selectBarList
+    }]
+};
+// 使用刚指定的配置项和数据显示图表。
+barChart.setOption(optionBar);
 
 /* sql语句框 */
 var $sqlInput = $("#operation-input");
@@ -44,6 +95,10 @@ function sendSql(sql){
     if(sql.split(/\s+/)[0] == "select"){
         url = '/simulateDatabase_mvc/operateSelectDatabaseController.do';
     }
+
+//        判断是否是索引查询
+    var isIndexSelect = false;
+
 	$.ajax({
 		method: "POST",
 		url: url,
@@ -56,13 +111,19 @@ function sendSql(sql){
 		    console.log(data);
 		    if(data != "undefined" && data !="0" && data!=null){
 				$sqlResult.text("操作成功");
-				if(url == '/simulateDatabase_mvc/operateSelectDatabaseController.do'){
+				if(url == '/simulateDatabase_mvc/operateSelectDatabaseController.do' && (sql.split(/\s+/).length==4 || sql.split(/\s+/).length==6)){
 				    $(".selectResult").show();
 				    $("#selectRS").text(data[0].selectRS);
+				}
+				else if(url == '/simulateDatabase_mvc/operateSelectDatabaseController.do' && (sql.split(/\s+/).length==5 || sql.split(/\s+/).length==7)){
+//				    $(".selectResult").show();
+                    $("#selectRSIndex").text(data[0].selectRS);
+                    isIndexSelect = true;
 				}
 				else{
 				    $(".selectResult").hide();
                     $("#selectRS").text("");
+                    $("#selectRSIndex").text("");
 				}
 		    }
 		    else{
@@ -86,6 +147,18 @@ function sendSql(sql){
             };
             $table.bootstrapTable('prepend', waitAppendSql);
             opeCountID += 1;
+
+            if(isIndexSelect){
+                selectBarList[1] = (now-past);
+                selectList[1].value = (now-past);
+            }
+            else{
+                selectBarList[0] = (now-past);
+                selectList[0].value = (now-past);
+            }
+
+            myChart.setOption(option);
+            barChart.setOption(optionBar);
 		}
 	});
 }
@@ -158,57 +231,57 @@ $(function($){
 	
 	/* 
 		图形可视化，将用户信息基于图标展现---基于echarts.js
-	 */
-	// 基于准备好的dom，初始化echarts实例
-	var myChart = echarts.init($('#pieGraph')[0]);
+//	 */
+//	// 基于准备好的dom，初始化echarts实例
+//	var myChart = echarts.init($('#pieGraph')[0]);
 
-	// 指定图表的配置项和数据
-	var option = {
-		title: {
-			text: '数据库/表统计'
-		},
-		color: ["#ff5500","#0055ff"],
-		tooltip: {},
-		legend: {
-			data:['数据库']
-		},
-		series : [
-			{
-				name: '库/表',
-				type: 'pie',    // 设置图表类型为饼图
-				radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
-				data: sexList
-			}
-		]
-	};
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option);
-	
-	
-	// 基于准备好的dom，初始化echarts实例----学校分布
-	var barChart = echarts.init($("#barGraph")[0]);
-	// 指定图表的配置项和数据
-	var optionBar = {
-		title: {
-			text: '数据库表分布情况'
-		},
-		color: ["#ff5500","#55ff00","#0000ff"],
-		tooltip: {},
-		legend: {
-			data:['表数目']
-		},
-		xAxis: {
-			data: ['test','sys']//schoolNameList
-		},
-		yAxis: {},
-		series: [{
-			name: '数据库',
-			type: 'bar',
-			data: roleCountList
-		}]
-	};
-	// 使用刚指定的配置项和数据显示图表。
-	barChart.setOption(optionBar);
+//	// 指定图表的配置项和数据
+//	var option = {
+//		title: {
+//			text: '普通查询/索引查询'
+//		},
+//		color: ["#ff5500","#0055ff"],
+//		tooltip: {},
+//		legend: {
+//			data:['普通查询']
+//		},
+//		series : [
+//			{
+//				name: '查询方式',
+//				type: 'pie',    // 设置图表类型为饼图
+//				radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+//				data: selectList
+//			}
+//		]
+//	};
+//	// 使用刚指定的配置项和数据显示图表。
+//	myChart.setOption(option);
+//
+//
+////	// 基于准备好的dom，初始化echarts实例----学校分布
+////	var barChart = echarts.init($("#barGraph")[0]);
+//	// 指定图表的配置项和数据
+//	var optionBar = {
+//		title: {
+//			text: '数据库表分布情况'
+//		},
+//		color: ["#ff5500","#55ff00","#0000ff"],
+//		tooltip: {},
+//		legend: {
+//			data:['表数目']
+//		},
+//		xAxis: {
+//			data: ['普通查询','索引查询']//schoolNameList
+//		},
+//		yAxis: {},
+//		series: [{
+//			name: '查询方式',
+//			type: 'bar',
+//			data: selectBarList
+//		}]
+//	};
+//	// 使用刚指定的配置项和数据显示图表。
+//	barChart.setOption(optionBar);
 
 	
 	/* 
